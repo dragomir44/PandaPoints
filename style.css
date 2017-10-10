@@ -1,0 +1,7 @@
+
+.table-row-move {
+  transition: all 0.7s;
+}
+.table-row-item {
+  backface-visibility: hidden;
+}

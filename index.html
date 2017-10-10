@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html> 
+	<head>
+		<meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<!--      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"> -->
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-database.js"></script>
+		<script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
+		<title>Het 🐼 Punten systeem</title>
+		<h1 id="bigOne"> </h1>
+
+	</head>
+
+	<body>
+		<!-- background ="http://www.bhmpics.com/walls/giant_panda_eating_bamboo-wide.jpg" -->
+		<div id="root">
+			<div class="jumbotron">
+				<div class="container">
+	    			<h1 class="text-center">Het 🐼 Punten systeem</h1>
+	    			<h3 class="text-center"> Vandaag: {{vandaag}}</h3>
+	   				<h3 class="text-center">{{winner}} is de grootste 🐼!</h3>
+	   			</div>
+	 		</div><!-- /.jumbotron -->
+
+	 		<div class="container">
+		 		<div id="table" class="row">
+		 			<div class="col-md-8">
+			 			<table class="table table-responsive">
+			 				<tr class="bg-info">
+				 				<th> Naam </th>
+				 				<th> Relatie </th>
+				 				<th> Laatste datum </th>
+				 				<!-- TODO Datepicker -->
+				 				<th ><input type="date" v-model="newDate">	
+				 				</th>
+				 				<th> Dagen droog </th>
+				 				<th> Punten </th>
+				 			</tr>
+					 	
+				 			<tbody name="table-row" is="transition-group">
+					 			<tr v-for="persoon in orderedPersonen"
+					 				v-bind:key="persoon"
+					 				class="table-row-item">
+
+					 				<td>{{persoon.name}}</td>
+					 				<td v-if="persoon.relatie"><font size="5"> ❤️ </font></td>
+					 				<td v-else ><font size="5"> ✊</font></td>
+					 				<td> {{persoon.datum}} </td>
+					 				<td>  <button @click="setNewDate(persoon); isWinner(); addHighscore(); refreshAt(24,00,00);" class="btn btn-success" >Update</button> </td>
+					 				<td> {{persoon.dagenDroog}} </td>
+					 				<td> {{persoon.punten}} </td>
+					 			</tr>
+				 			</transition-group>
+			 			</table>
+					</div>
+					<div class="col-md-4">
+						<h2 class="text-center"> High score </h2>
+						<table class="table is-bordered table table-hover table-responsive">
+							<thead class="thead-inverse">
+			 					<tr>
+				 					<th> Punten</th>
+				 					<th> Dagen droog </th>
+				 					<th> Naam  </th>
+				 				</tr>
+				 			</thead>
+				 			<tbody name="table-row" is="transition-group">
+					 			<tr v-for="persoon in getHighscore"
+					 				v-bind:key="persoon"
+					 				class="table-row-item">
+					 				<td> {{persoon.punten}} </td>
+					 				<td> {{persoon.dagenDroog}} </td>
+					 				<td> {{persoon.name}}</td>
+					 			</tr>
+				 			</transition-group>
+			 			</table>
+					</div>
+				</div>
+			</div>
+	<!--TODO 
+		Highscore list
+	 			 -->
+
+
+	<!-- 
+		<button @click="shuffle()">WOW</button>
+	 		<h2>Geen relatie</h2>
+			<ul>
+				
+				<li v-for="persoon in hasNoRelationship" v-text="persoon.name"></li>
+				
+			</ul> 
+
+			
+
+			
+			<h2>Wel relatie</h2>
+			<ul>
+				<li v-for="persoon in hasRelationship" v-text="persoon.name"></li>
+			</ul>   -->
+
+		<!-- CDN -->
+
+
+		<script src="https://unpkg.com/vue@2.4.4/dist/vue.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>	<!-- shuffle -->
+		<script src="main.js"></script>
+		<script>
+		  // Initialize Firebase
+		  var config = {
+		    apiKey: "AIzaSyAsbAPMSTFY0bFQXBHOl4ahLaHXiFtnL0s",
+		    authDomain: "pandapunten-1a761.firebaseapp.com",
+		    databaseURL: "https://pandapunten-1a761.firebaseio.com",
+		    projectId: "pandapunten-1a761",
+		    storageBucket: "",
+		    messagingSenderId: "87475667167"
+		  };
+		  firebase.initializeApp(config);
+		  var bigOne = document.getElementById("bigOne");
+		  var dbRef = firebase.database().red.child("persoon");
+		  dbRef.on("value", snap => bigOne.innerText = snap.val());
+		</script>
+	</body>
+</html>
